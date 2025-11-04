@@ -77,7 +77,7 @@ function App() {
             })
             .catch(err => {
                 setNotification('Could not obtain access token');
-                console.error(err);
+                console.error(...err);
             });
     }, []);
 
