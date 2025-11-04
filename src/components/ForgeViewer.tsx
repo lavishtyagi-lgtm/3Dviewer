@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, CSSProperties } from 'react';
-
 // Props for the viewer component
 interface ForgeViewerProps {
     urn: string | null;
@@ -16,11 +15,11 @@ const viewerStyle: CSSProperties = {
 
 const ForgeViewer: React.FC<ForgeViewerProps> = ({ urn, getAccessToken }) => {
     const viewerDiv = useRef<HTMLDivElement>(null);
-    const viewerInstance = useRef<any>(null);
+    const viewerInstance = useRef<Autodesk.Viewing.GuiViewer3D|null>(null);
 
     useEffect(() => {
         if (!viewerDiv.current) return;
-        const Autodesk = (window as any).Autodesk;
+        const Autodesk = window.Autodesk;
         if (!Autodesk) {
             console.error("Autodesk viewer script is not loaded");
             return;
@@ -60,7 +59,7 @@ const ForgeViewer: React.FC<ForgeViewerProps> = ({ urn, getAccessToken }) => {
                 if (urn) {
                     Autodesk.Viewing.Document.load(
                         `urn:${urn}`,
-                        (doc: any) => {
+                        (doc: Autodesk.Viewing.Document) => {
                             viewer.loadDocumentNode(doc, doc.getRoot().getDefaultGeometry());
                             // Force resize after model load
                             setTimeout(() => {
@@ -69,7 +68,7 @@ const ForgeViewer: React.FC<ForgeViewerProps> = ({ urn, getAccessToken }) => {
                                 }
                             }, 500);
                         },
-                        (code: any, message: any) => {
+                        (code: number, message: string) => {
                             console.error('Failed to load document', message);
                         }
                     );
@@ -88,7 +87,7 @@ const ForgeViewer: React.FC<ForgeViewerProps> = ({ urn, getAccessToken }) => {
 
     // Handle window resize
     useEffect(() => {
-        const handleResize = () => {
+        const handleResize = ():void => {
             if (viewerInstance.current && viewerInstance.current.resize) {
                 viewerInstance.current.resize();
             }
