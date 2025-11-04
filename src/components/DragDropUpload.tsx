@@ -1,7 +1,8 @@
 import React, { useState, useRef, CSSProperties } from 'react';
 
 interface DragDropUploadProps {
-    onUpload: (file: File, entrypoint?: string) => void;
+    onUpload: (file: File, entrypoint?: string|undefined) => void ;
+    // here void menas this fn will not return anything but instead is used to operate the function
 }
 
 // --- Style Definitions ---
@@ -93,7 +94,7 @@ const DragDropUpload: React.FC<DragDropUploadProps> = ({ onUpload }) => {
         e.preventDefault();
         setIsDragOver(false);
         
-        const files = Array.from(e.dataTransfer.files);
+        const files:File[] = Array.from(e.dataTransfer.files);
         if (files.length > 0) {
             handleFileUpload(files[0]);
         }
@@ -101,7 +102,7 @@ const DragDropUpload: React.FC<DragDropUploadProps> = ({ onUpload }) => {
 
     const handleFileUpload = (file: File) => {
         if (file.name.endsWith('.zip')) {
-            const entrypoint = window.prompt('Please enter the filename of the main design inside the archive.');
+            const entrypoint:string|null = window.prompt('Please enter the filename of the main design inside the archive.');
             if (!entrypoint) return;
             onUpload(file, entrypoint);
         } else {

@@ -1,3 +1,4 @@
+// import type { GuiViewer3D, Viewer3D } from 'forge-viewer';
 import React, { useEffect, useRef, CSSProperties } from 'react';
 
 // Props for the viewer component
@@ -16,7 +17,7 @@ const viewerStyle: CSSProperties = {
 
 const ForgeViewer: React.FC<ForgeViewerProps> = ({ urn, getAccessToken }) => {
     const viewerDiv = useRef<HTMLDivElement>(null);
-    const viewerInstance = useRef<any>(null);
+    const viewerInstance = useRef< any>(null);
 
     useEffect(() => {
         if (!viewerDiv.current) return;
@@ -51,7 +52,7 @@ const ForgeViewer: React.FC<ForgeViewerProps> = ({ urn, getAccessToken }) => {
                 viewerInstance.current = viewer;
 
                 // Force resize after initialization
-                setTimeout(() => {
+                setTimeout(():void => {
                     if (viewer && viewer.resize) {
                         viewer.resize();
                     }
@@ -69,7 +70,7 @@ const ForgeViewer: React.FC<ForgeViewerProps> = ({ urn, getAccessToken }) => {
                                 }
                             }, 500);
                         },
-                        (code: any, message: any) => {
+                        ( message: string) => {
                             console.error('Failed to load document', message);
                         }
                     );

@@ -118,7 +118,7 @@ function App() {
     };
 
     // Handle model upload
-    const onFileChange = (file: File, entrypoint?: string) => {
+    const onFileChange = (file: File, entrypoint?: string | undefined) => {
         const data = new FormData();
         data.append('model-file', file);
         if (file.name.endsWith('.zip') && entrypoint) {

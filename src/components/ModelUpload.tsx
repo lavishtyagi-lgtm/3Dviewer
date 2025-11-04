@@ -1,7 +1,7 @@
 import React, { useRef, CSSProperties } from 'react';
 
 interface ModelUploadProps {
-    onUpload: (file: File, entrypoint?: string) => void;
+    onUpload: (file: File, entrypoint?: string| undefined) => void;
 }
 
 // --- Style Definition for the button ---
@@ -21,11 +21,11 @@ const buttonStyle: CSSProperties = {
 const ModelUpload: React.FC<ModelUploadProps> = ({ onUpload }) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const onButtonClick = () => {
+    const onButtonClick = ():void => {
         inputRef.current?.click();
     };
 
-    const onFileChange = () => {
+    const onFileChange = ():void => {
         const file = inputRef.current?.files?.[0];
         if (!file) return;
 
