@@ -59,7 +59,7 @@ const mainContentStyle: CSSProperties = {
     overflow: 'hidden'
 };
 
-function App() {
+function App():JSX.Element {
     const [models, setModels] = useState<Model[]>([]);
     const [selectedUrn, setSelectedUrn] = useState<string | null>(null);
     const [notification, setNotification] = useState<string | null>(null);
@@ -118,8 +118,8 @@ function App() {
     };
 
     // Handle model upload
-    const onFileChange = (file: File, entrypoint?: string) => {
-        const data = new FormData();
+    const onFileChange = (file: File, entrypoint?: string|undefined) => {
+        const data:FormData = new FormData();
         data.append('model-file', file);
         if (file.name.endsWith('.zip') && entrypoint) {
             data.append('model-zip-entrypoint', entrypoint);
